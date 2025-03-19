@@ -1,4 +1,4 @@
-// File: app/api/send-email/route.ts 
+// File: app/api/send-email/route.ts
 // or:   src/app/api/send-email/route.ts
 import { NextResponse } from "next/server";
 const nodemailer = require("nodemailer");
@@ -33,17 +33,16 @@ export async function POST(request: Request) {
     const orderSummary = cart
       .map(
         (item: any) =>
-          `${item.title} (x${item.quantity}) - $${(
-            item.price * item.quantity
-          ).toFixed(2)}`
+          `${item.Id}
+         ${item.title} 
+         (quantity=${item.quantity}) - $${(item.price * item.quantity).toFixed(
+           2
+         )}`
       )
       .join("\n");
 
     const totalAmount = cart
-      .reduce(
-        (sum: number, item: any) => sum + item.price * item.quantity,
-        0
-      )
+      .reduce((sum: number, item: any) => sum + item.price * item.quantity, 0)
       .toFixed(2);
 
     const customerEmail = formData.email;
@@ -57,7 +56,7 @@ export async function POST(request: Request) {
 
      ${orderSummary}
 
-     Total: $${totalAmount}
+     Total Price: $${totalAmount}
 
      We will Deliver your order soon.
       
@@ -88,7 +87,7 @@ export async function POST(request: Request) {
     `;
 
     // 4. Create transporter and send emails
-   
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -117,7 +116,10 @@ export async function POST(request: Request) {
     });
 
     // 5. Return success response as JSON
-    return NextResponse.json({ message: "Emails sent successfully" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Emails sent successfully" },
+      { status: 200 }
+    );
   } catch (error: any) {
     console.error("❌ Email sending error:", error);
     return NextResponse.json(

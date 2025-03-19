@@ -1,9 +1,11 @@
 // app/products/page.tsx
-export const revalidate = 0;
+export const revalidate = 0; // server component revalidation
+
 import { client } from "@/sanity/lib/client";
 import ProductCard from "@/app/compunents/ProductCard";
 
 interface Product {
+  Id: number;
   _id: string;
   title: string;
   description: string;
@@ -14,6 +16,7 @@ interface Product {
 async function getData(): Promise<Product[]> {
   const fetchData = await client.fetch(
     `*[_type == "products"] {
+      Id,
       _id,
       title,
       description,
@@ -25,19 +28,15 @@ async function getData(): Promise<Product[]> {
   return fetchData;
 }
 
-const ProductsPage = async () => {
+export default async function ProductsPage() {
   const data: Product[] = await getData();
 
   return (
     <div className="p-10 bg-gray-100 min-h-screen">
       {/* Hero Section */}
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-bold text-gray-900">
-          Our Products
-        </h1>
-        <p className="text-gray-800">
-          Explore our latest collection of products!
-        </p>
+        <h1 className="text-4xl font-bold text-gray-900">Our Products</h1>
+        <p className="text-gray-800">Explore our latest collection of products!</p>
       </div>
 
       {/* Product Grid */}
@@ -46,9 +45,6 @@ const ProductsPage = async () => {
           <ProductCard key={product._id} product={product} />
         ))}
       </div>
-      
     </div>
   );
-};
-
-export default ProductsPage;
+}

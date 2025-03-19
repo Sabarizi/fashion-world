@@ -7,6 +7,7 @@ import { FC } from "react";
 import AddToCartButton from "./AddToCartButton";
 
 interface Product {
+  Id:number;
   _id: string;
   title: string;
   description: string;
@@ -54,6 +55,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
           {/* Add to Cart Button */}
           <AddToCartButton
             product={{
+              Id:product.Id,
               id: product._id,
               title: product.title,
               price: product.price,

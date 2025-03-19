@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 interface AddToCartButtonProps {
   product: {
+    Id:number;
     id: string;
     title: string;
     price: number;
@@ -28,6 +29,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
   const handleAddToCart = () => {
     addToCart({
+      Id:product.Id,
       id: product.id,
       title: product.title,
       price: product.price,
@@ -35,7 +37,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       quantity,
     });
 
-    toast.success(`${product.title} added to cart!`);
+    toast.success(`${product.title} ${product.Id} added to cart!`);
     setIsAdded(true);
     setShowPopup(true);
 
@@ -53,7 +55,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-white rounded-full transition-all duration-300
           bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 
           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-        aria-label={`Add ${product.title} to cart`}
+        aria-label={`Add ${product.title}  ${product.Id} to cart`}
       >
         🛒 Add to Cart
       </button>
@@ -68,6 +70,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
               className="w-32 h-32 mx-auto rounded-md"
             />
             <h3 className="text-lg font-semibold mt-3">{product.title}</h3>
+            <h3 className="text-lg font-semibold mt-3">{product.Id}</h3>
             <p className="text-gray-600">${product.price.toFixed(2)}</p>
 
             {/* Buttons */}

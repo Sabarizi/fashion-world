@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 type CartItem = {
+  Id:number;
   id: string;
   title: string;
   price: number;

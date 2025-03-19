@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import { useState } from "react";
 
@@ -11,31 +12,47 @@ export default function ContactUs() {
 
   // For feedback (success/error)
   const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setStatus("");
+    setLoading(true);
 
-    // Recipient email address
-    const recipient = "crafted.fusion.official@gmail.com";
+    try {
+      // Make a POST request to our /api/contact route
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          subject,
+          message,
+        }),
+      });
 
-    // Compose email subject and body
-    const emailSubject = subject || "New Contact Us Message";
-    const emailBody = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
-
-    // Create Gmail compose link
-    const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
-      recipient
-    )}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-
-    // Open the Gmail compose window in a new tab
-    window.open(gmailComposeLink, "_blank");
-
-    // Optionally show some status or reset the form
-    setStatus("Gmail compose window has been opened!");
-    setName("");
-    setEmail("");
-    setSubject("");
-    setMessage("");
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setStatus("Email sent successfully!");
+        // Reset form fields
+        setName("");
+        setEmail("");
+        setSubject("");
+        setMessage("");
+      } else {
+        setStatus(
+          data.message || "Failed to send email. Please try again later."
+        );
+      }
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      setStatus("An unexpected error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,28 +60,34 @@ export default function ContactUs() {
       {/* Header Section */}
       <div className="bg-gray-300 py-10">
         <div className="max-w-6xl mx-auto px-4">
-          <h1 className="text-4xl font-bold text-indigo-900 mb-2">Contact Us</h1>
+          <h1 className="text-4xl font-bold text-indigo-900 mb-2">
+            Contact Us
+          </h1>
           <p className="text-sm text-gray-600">
-            Home . Pages . <span className="text-pink-500">Contact us</span>
+            Home . Pages .{" "}
+            <span className="text-pink-500">Contact us</span>
           </p>
         </div>
       </div>
 
       {/* Information Section */}
       <div className="max-w-6xl mx-auto px-4 mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
         {/* Left Section - Form */}
         <div>
           <h2 className="text-2xl font-bold text-indigo-900">Get In Touch</h2>
           <p className="text-gray-600 mt-4 leading-relaxed">
-            We would love to hear from you! Whether you have a question about features, trials, pricing, need a demo, or anything else, our team is ready to answer all your questions.
+            We would love to hear from you! Whether you have a question about
+            features, trials, pricing, need a demo, or anything else, our team
+            is ready to answer all your questions.
           </p>
 
           {/* Form */}
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="name" className="sr-only">Your Name</label>
+                <label htmlFor="name" className="sr-only">
+                  Your Name
+                </label>
                 <input
                   id="name"
                   type="text"
@@ -76,7 +99,9 @@ export default function ContactUs() {
                 />
               </div>
               <div>
-                <label htmlFor="email" className="sr-only">Your E-mail</label>
+                <label htmlFor="email" className="sr-only">
+                  Your E-mail
+                </label>
                 <input
                   id="email"
                   type="email"
@@ -89,7 +114,9 @@ export default function ContactUs() {
               </div>
             </div>
             <div>
-              <label htmlFor="subject" className="sr-only">Subject</label>
+              <label htmlFor="subject" className="sr-only">
+                Subject
+              </label>
               <input
                 id="subject"
                 type="text"
@@ -100,7 +127,9 @@ export default function ContactUs() {
               />
             </div>
             <div>
-              <label htmlFor="message" className="sr-only">Type Your Message</label>
+              <label htmlFor="message" className="sr-only">
+                Type Your Message
+              </label>
               <textarea
                 id="message"
                 placeholder="Type Your Message*"
@@ -113,9 +142,10 @@ export default function ContactUs() {
             </div>
             <button
               type="submit"
-              className="px-6 py-3 bg-pink-500 text-white font-medium rounded-md hover:bg-pink-600"
+              disabled={loading}
+              className="px-6 py-3 bg-pink-500 text-white font-medium rounded-md hover:bg-pink-600 disabled:opacity-50"
             >
-              Send Mail
+              {loading ? "Sending..." : "Send Mail"}
             </button>
           </form>
 
@@ -133,13 +163,13 @@ export default function ContactUs() {
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-6 h-6 bg-pink-500 rounded-full"></div>
-              <p className="text-gray-600">E-Mail: crafted.fusion.official@gmail.com</p>
+              <p className="text-gray-600">
+                E-Mail: crafted.fusion.official@gmail.com
+              </p>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-6 h-6 bg-orange-500 rounded-full"></div>
-              <p className="text-gray-600">
-                Sioux Lookout, Ontario, Canada
-              </p>
+              <p className="text-gray-600">Sioux Lookout, Ontario, Canada</p>
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-6 h-6 bg-green-500 rounded-full"></div>

@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify"; // For toast notifications
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 
 interface Product {
+   Id:number;
   _id: string;
   title: string;
   description: string;
@@ -18,6 +19,7 @@ interface Product {
 async function getProduct(productId: string): Promise<Product | null> {
   const product = await client.fetch(
     `*[_type == "products" && _id == $productId][0] {
+      Id,
       title,
       description,
       price,
@@ -61,6 +63,9 @@ export default async function ProductPage({
 
         {/* Right Side: Product Details */}
         <div className="p-8 md:w-1/2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            {product.Id}
+          </h1>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             {product.title}
           </h1>
@@ -92,6 +97,7 @@ export default async function ProductPage({
           {/* Add to Cart Button */}
           <AddToCartButton
             product={{
+              Id:product.Id,
               id: product._id,
               title: product.title,
               price: product.price,

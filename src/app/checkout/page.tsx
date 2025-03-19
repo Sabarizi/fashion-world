@@ -84,7 +84,7 @@ export default function Checkout() {
         <h2 className="text-2xl font-semibold mb-4">Your Order</h2>
         {cart.map((item) => (
           <div key={item.id} className="flex justify-between mb-2">
-            <p>{item.title} (x{item.quantity})</p>
+            <p>{item.title} {item.Id} (Quantity={item.quantity})</p>
             <p>${(item.price * item.quantity).toFixed(2)}</p>
           </div>
         ))}

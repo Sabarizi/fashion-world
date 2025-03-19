@@ -27,6 +27,7 @@ export default function Cart() {
               <div className="flex items-center">
                 <Image src={item.image} alt={item.title} width={64} height={64} className="mr-4" />
                 <div>
+                <h2 className="text-lg">{item.Id}</h2>
                   <h2 className="text-lg">{item.title}</h2>
                   <p>${item.price.toFixed(2)}</p>
                 </div>
