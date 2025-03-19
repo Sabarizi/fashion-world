@@ -49,22 +49,24 @@ export async function POST(request: Request) {
     const customerEmail = formData.email;
 
     const customerEmailContent = `
-      Hello ${formData.firstName},
+     Hello ${formData.firstName},
 
-      Thank you for your order!We’re excited to have you as a customer and can’t wait for you to receive your items.
+     Thank you for your order.! We are excited to have you as a customer and can not wait for you to receive your items.
 
-      Here’s a summary of your order:
+     Here’s a summary of your order:
 
-         ${orderSummary}
+     ${orderSummary}
 
-      Total: $${totalAmount}
+     Total: $${totalAmount}
 
-      We will Deliver your order soon.
+     We will Deliver your order soon.
       
-     if you have any questions or need help, feel free to reach out to our support team at crafted.fusion.official@gmail.com .
+     if you have any questions or need help, feel free to reach out to our support team at crafted.fusion.official@gmail.com.
+
      Thank you again for choosing Crafted Fusion . We hope you love your purchase!
      
      Regards,
+
        Crafted Fusion Team
     `;
 
@@ -86,11 +88,12 @@ export async function POST(request: Request) {
     `;
 
     // 4. Create transporter and send emails
+   
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
+      service: "gmail",
       auth: {
-        user: emailUser,
-        pass: emailPass,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
