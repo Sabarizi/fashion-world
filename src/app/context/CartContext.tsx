@@ -1,4 +1,3 @@
-// src/context/CartContext.tsx
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
@@ -17,6 +16,7 @@ type CartContextType = {
   clearCart: () => void;
   removeFromCart: (id: string) => void;
   updateCartItem: (id: string, updatedFields: Partial<CartItem>) => void;
+  updateQuantity: (id: string, newQuantity: number) => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -24,28 +24,26 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Load cart from localStorage on mount
+  // ✅ Load cart from localStorage on first render
   useEffect(() => {
-    if (typeof window !== "undefined") { // Ensure window is available
-      const storedCart = localStorage.getItem("cart");
-      if (storedCart) {
-        try {
-          setCart(JSON.parse(storedCart));
-        } catch (error) {
-          console.error("Failed to parse cart from localStorage:", error);
-          setCart([]);
-        }
+    if (typeof window !== "undefined") {
+      try {
+        const storedCart = localStorage.getItem("cart");
+        setCart(storedCart ? JSON.parse(storedCart) : []);
+      } catch (error) {
+        console.error("Failed to load cart from localStorage:", error);
       }
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // ✅ Save cart to localStorage whenever it changes
   useEffect(() => {
-    if (typeof window !== "undefined") { // Ensure window is available
+    if (typeof window !== "undefined" && cart.length > 0) {
       localStorage.setItem("cart", JSON.stringify(cart));
     }
   }, [cart]);
 
+  // ✅ Add to cart
   const addToCart = (item: CartItem) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((cartItem) => cartItem.id === item.id);
@@ -60,22 +58,42 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     });
   };
 
-  const clearCart = () => setCart([]);
+  // ✅ Remove from cart and update localStorage
+  const removeFromCart = (id: string) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart.filter((item) => item.id !== id);
+      localStorage.setItem("cart", JSON.stringify(updatedCart)); // Ensure it updates storage
+      return updatedCart;
+    });
+  };
 
-  const removeFromCart = (id: string) =>
-    setCart((prev) => prev.filter((item) => item.id !== id));
-
+  // ✅ Update cart item
   const updateCartItem = (id: string, updatedFields: Partial<CartItem>) => {
     setCart((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, ...updatedFields } : item
-      )
+      prev.map((item) => (item.id === id ? { ...item, ...updatedFields } : item))
     );
+  };
+
+  // ✅ Update quantity
+  const updateQuantity = (id: string, newQuantity: number) => {
+    setCart((prevCart) => {
+      const updatedCart = prevCart
+        .map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
+        .filter((item) => item.quantity > 0);
+      localStorage.setItem("cart", JSON.stringify(updatedCart)); // Ensure it updates storage
+      return updatedCart;
+    });
+  };
+
+  // ✅ Clear cart after payment
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem("cart");
   };
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, clearCart, removeFromCart, updateCartItem }}
+      value={{ cart, addToCart, clearCart, removeFromCart, updateCartItem, updateQuantity }}
     >
       {children}
     </CartContext.Provider>

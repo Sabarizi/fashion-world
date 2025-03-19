@@ -36,6 +36,9 @@ const Navbar = () => {
               Contact
             </Link>
             <Link href="/Cart" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-400">
+              View Cart
+            </Link>
+            <Link href="/Cart" className="rounded-md text-sm font-medium hover:bg-gray-400">
                <FaCartShopping />
             </Link>
           </div>

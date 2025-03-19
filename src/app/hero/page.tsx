@@ -47,11 +47,11 @@ const Hero: React.FC = async () => {
               </p>
               <div className="flex justify-center">
                 <Link href="/products">
-                  
-                    <button className="inline-flex text-white bg-indigo-800 border-0 py-2 px-6 focus:outline-none hover:bg-black rounded text-lg">
-                      Shop All Products
-                    </button>
-                  
+                  <button className="relative inline-flex text-black bg-gradient-to-r from-yellow-500 to-red-500 border-0 py-3 px-8 font-bold text-lg rounded-lg shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105 hover:from-red-500 hover:to-yellow-500 focus:outline-none 
+                      animate-pulse">
+                    Shop All Products
+                    <span className="absolute inset-0 border-2 border-white rounded-lg animate-glow"></span>
+                  </button>
                 </Link>
               </div>
             </div>
@@ -66,7 +66,6 @@ const Hero: React.FC = async () => {
                 priority // Optional: to prioritize loading
               />
             </div>
-            
           </div>
         </section>
       ))}

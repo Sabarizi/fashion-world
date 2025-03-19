@@ -1,9 +1,9 @@
-// src/components/AddToCartButton.tsx
 "use client";
 
 import React, { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface AddToCartButtonProps {
   product: {
@@ -23,6 +23,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 }) => {
   const { addToCart } = useCart();
   const [isAdded, setIsAdded] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const router = useRouter();
 
   const handleAddToCart = () => {
     addToCart({
@@ -35,6 +37,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
     toast.success(`${product.title} added to cart!`);
     setIsAdded(true);
+    setShowPopup(true);
 
     if (onAdd) onAdd();
 
@@ -43,56 +46,49 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   };
 
   return (
-    <button
-      onClick={handleAddToCart}
-      className={`flex items-center justify-center w-full px-4 py-2 font-semibold text-white rounded-lg transition-colors duration-300 
-        ${
-          isAdded
-            ? "bg-green-500 hover:bg-green-600"
-            : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
-        }
-        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50
-      `}
-      aria-label={`Add ${product.title} to cart`}
-    >
-      {isAdded ? (
-        <>
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="3"
-              d="M5 13l4 4L19 7"
-            ></path>
-          </svg>
-          Added
-        </>
-      ) : (
-        <>
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m5-9v9m4-9v9m5-9l2 9"
-            ></path>
-          </svg>
-          Add to Cart
-        </>
+    <>
+      {/* Add to Cart Button */}
+      <button
+        onClick={handleAddToCart}
+        className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-white rounded-full transition-all duration-300
+          bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 
+          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        aria-label={`Add ${product.title} to cart`}
+      >
+        🛒 Add to Cart
+      </button>
+
+      {/* Popup Modal */}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+            <img
+              src={product.image}
+              alt={product.title}
+              className="w-32 h-32 mx-auto rounded-md"
+            />
+            <h3 className="text-lg font-semibold mt-3">{product.title}</h3>
+            <p className="text-gray-600">${product.price.toFixed(2)}</p>
+
+            {/* Buttons */}
+            <div className="mt-4 space-y-2">
+              <button
+                onClick={() => router.push("/Cart")}
+                className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+              >
+                View Cart 🛒
+              </button>
+              <button
+                onClick={() => setShowPopup(false)}
+                className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition"
+              >
+                Continue Shopping 🛍️
+              </button>
+            </div>
+          </div>
+        </div>
       )}
-    </button>
+    </>
   );
 };
 
