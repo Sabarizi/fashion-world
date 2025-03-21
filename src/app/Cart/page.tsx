@@ -29,6 +29,7 @@ export default function Cart() {
                 <div>
                 <h2 className="text-lg">{item.Id}</h2>
                   <h2 className="text-lg">{item.title}</h2>
+                 
                   <p>${item.price.toFixed(2)}</p>
                 </div>
               </div>

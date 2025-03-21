@@ -102,6 +102,7 @@ export default async function ProductPage({
               title: product.title,
               price: product.price,
               image: product.imageUrl,
+              
             }}
           />
 
