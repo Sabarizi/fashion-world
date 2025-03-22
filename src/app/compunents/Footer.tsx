@@ -1,5 +1,4 @@
-// components/Footer.tsx
-"use client"
+"use client";
 import React from "react";
 import Link from "next/link";
 
@@ -11,13 +10,11 @@ const FacebookIcon = () => (
     viewBox="0 0 24 24"
     aria-hidden="true"
   >
-    <path
-      d="M22.675 0h-21.35C.597 0 0 .597 0 1.325v21.351C0 23.403.597 24 1.325 
+    <path d="M22.675 0h-21.35C.597 0 0 .597 0 1.325v21.351C0 23.403.597 24 1.325 
       24h11.495v-9.294H9.691v-3.622h3.129V8.413c0-3.1 1.893-4.788 
       4.659-4.788 1.325 0 2.464.099 2.795.143v3.24l-1.918.001c-1.504 
       0-1.796.715-1.796 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.403 
-      24 24 23.403 24 22.675V1.325C24 .597 23.403 0 22.675 0z"
-    />
+      24 24 23.403 24 22.675V1.325C24 .597 23.403 0 22.675 0z" />
   </svg>
 );
 
@@ -28,8 +25,7 @@ const InstagramIcon = () => (
     viewBox="0 0 24 24"
     aria-hidden="true"
   >
-    <path
-      d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 
       2.633.333 3.608 1.308.975.975 1.246 
       2.242 1.308 3.608.058 1.266.069 1.646.069 
       4.85s-.012 3.584-.07 4.85c-.062 1.366-.333 
@@ -52,8 +48,7 @@ const InstagramIcon = () => (
       10.162a3.999 3.999 0 110-7.998 3.999 
       3.999 0 010 7.998zm6.406-11.845a1.44 
       1.44 0 11-2.88 0 1.44 1.44 0 012.88 
-      0z"
-    />
+      0z" />
   </svg>
 );
 
@@ -64,24 +59,31 @@ const Footer: React.FC = () => {
         {/* Navigation Links */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
           <div className="mb-4 md:mb-0">
-            <h2 className="text-xl font-semibold mb-2">Crafted Fusion <br/> Designs that define you </h2>
-            <p className="text-gray-400">Your one-stop shop for trendy t-shirts!</p>
+            <h2 className="text-xl font-semibold mb-2">
+              Crafted Fusion <br /> Designs that define you
+            </h2>
+            <p className="text-gray-400">
+              Your one-stop shop for trendy t-shirts!
+            </p>
           </div>
           <div className="flex space-x-6">
-            <Link href="/faq" className="text-gray-400 hover:text-white transition-colors duration-200">
-              
-                FAQ
-              
+            <Link
+              href="/faq"
+              className="text-gray-400 hover:text-white transition-colors duration-200"
+            >
+              FAQ
             </Link>
-            <Link href="/hero" className="text-gray-400 hover:text-white transition-colors duration-200">
-              
-                About
-              
+            <Link
+              href="/hero"
+              className="text-gray-400 hover:text-white transition-colors duration-200"
+            >
+              About
             </Link>
-            <Link href="/Contact" className="text-gray-400 hover:text-white transition-colors duration-200">
-              
-                Contact
-              
+            <Link
+              href="/Contact"
+              className="text-gray-400 hover:text-white transition-colors duration-200"
+            >
+              Contact
             </Link>
           </div>
         </div>
@@ -94,7 +96,7 @@ const Footer: React.FC = () => {
           {/* Social Media Links */}
           <div className="flex space-x-6 mb-4 md:mb-0">
             <a
-              href="https://www.facebook.com/share/14i2Mx8L88/?mibextid=wwXIfr "
+              href="https://www.facebook.com/share/14i2Mx8L88/?mibextid=wwXIfr"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -102,7 +104,7 @@ const Footer: React.FC = () => {
               <FacebookIcon />
             </a>
             <a
-              href="https://www.instagram.com/craftedfusionofficial?igsh=NzY5N3oyeW1hdDVr "
+              href="https://www.instagram.com/craftedfusionofficial?igsh=NzY5N3oyeW1hdDVr"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
@@ -115,11 +117,14 @@ const Footer: React.FC = () => {
           <div className="text-center md:text-right">
             <p className="text-gray-400">
               📧 Email:{" "}
+              {/* Use a Gmail compose link instead of mailto */}
               <a
-                href="https://mail.google.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=crafted.fusion.official@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-white transition-colors duration-200"
               >
-               crafted.fusion.official@gmail.com
+                crafted.fusion.official@gmail.com
               </a>
             </p>
             <p className="text-gray-400">
@@ -127,7 +132,7 @@ const Footer: React.FC = () => {
               <a
                 href="tel:+1234567890"
                 className="hover:text-white transition-colors duration-200"
-             >
+              >
                 +1 (204) 333-4556
               </a>
             </p>
@@ -144,4 +149,3 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
-""
